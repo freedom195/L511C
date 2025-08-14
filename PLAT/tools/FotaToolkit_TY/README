@@ -1,0 +1,59 @@
+INTRODUCTION
+
+FotaToolkit is a small toolkit for FOTA service. Actually, it is always used to make a delta binary file deriving from two different binary images
+and to merge two delta files(*.par) into an entire parchive(*.par). 
+Furthermore, it provides a way to download/deliver data to a specific memory zone for upgrading the system device or updating the system data
+via AT command and a way to read the data from a specific memory zone as well, 
+
+
+FEATURES
+
+  * FOTA delta file generator.
+  * FOTA delta file upgrader via AT command
+  * FOTA delta files merger
+  * FOTA data files deliverer for a specific memory zone
+  * FOTA data files reader from a specific memory zone
+
+CHANGELOG
+  * |- V2.5: new feature of hulu suite based on core(2.0)
+  * |- V2.0: new core(2.0) for compressed data difference
+  * |- V1.2: support reading data from a certain specific memory zone
+  * |- V1.1: support delivering data to a certain specific memory zone
+  * |- V1.0: support merging delta files in one and generating delta from *.binpkg
+  * |- V0.5: support FOTAoS(AT) and release the GUI tool of initial version
+  * |- V0.4: rename the project with official name: FotaToolkit
+  * |- V0.3: support the option of base & target version
+  * |- V0.2: initial version
+  
+RELASE NOTE
+ * |- V3.5.10.0: add json file for ec716e
+ * |- V3.5.10.0: fix the issue of overflowed file tail size
+ * |- V3.5.8.0 : support HLS feature for unzip image file
+ * |- V3.5.6.0 : rename the attribute of signed data for secured system image("SYS" --> "SYSH")
+ * |- V3.5.5.0 : fix the issue of data length in use of bzlib
+ * |- V3.5.4.0 : improvement on *par format for distinguishing the system signed data is included or not
+ * |- V3.5.3.0 : fix the issue about HLS when delta file is being created
+ * |- V3.5.2.0 : output the smaller delta file when hulu suite is enabled
+ * |- V3.5.0.0 : support hulu suite for core(2.0) and zone resizing
+ * |- V3.0.4.0 : fix the issue of improper available RAM size
+ * |- V3.0.3.0 : support creating delta file from binary/binpkg pair with a single de~/compress method
+ * |- V3.0.2.0 : support chip ec716s and fix the issues of wrong address & size in config files
+ * |- V3.0.0.0 : new core(2.0)
+ * |- V2.2.1.0 : update fcelf.exe and fix the reporting issue of FOTA progress
+ * |- V2.1.8.0 : new GUI window for reading binary data
+ * |- V2.1.7.0 : fix the issue on sending 'AT+NFWUPD=5' and revert pmss to 256 in ec618.json file
+ * |- V2.1.6.0 : update fcelf.exe for unpacking new format binpkg file
+ * |- V2.1.5.0 : new feature of reading binary data from a specific memory zone
+ * |- V2.1.4.0 : new feature of delivering binary data to a specific memory zone
+ * |- V2.1.2.0 : fix the issue of patching failure when the delta(*.par) derived from a BINPKG pair contains only one image of non-AP type
+ * |- V2.1.1.0 : fix the issue of dead lock on Win7 and improve the patching performance
+
+PROJECT NAME:
+ * |-FotaToolkit.sln
+
+EXCUTABLE:
+ * |-.\workspace\FotaToolkit.exe
+
+DEVELOPMENT EVIROMENT:
+ * |-Microsoft Visual C++ 2019(X86)
+
