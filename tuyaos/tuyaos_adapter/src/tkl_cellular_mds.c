@@ -12,7 +12,7 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_output.h"
 #include "tkl_cellular_mds.h"
-#include "tkl_cellular.h"
+#include "tkl_cellular_base.h"
 #include "tkl_system.h"
 
 #if !defined(ENABLE_CELLULAR_PLUGIN) || ENABLE_CELLULAR_PLUGIN == 0
@@ -335,7 +335,7 @@ static void pdp_active_deactve(void *arg)
                     gProfile[msg.cid].actived = true;
                     LOGI("update mds net status, cid/%d, actived/%d", msg.cid, gProfile[msg.cid].actived);
                     if (1 == msg.cid && gMdsNotify) {
-                        gMdsNotify(gMdsNetStatus[1]);
+                        gMdsNotify(0, gMdsNetStatus[1]);
                     }
 #if defined(ENABLE_WIRED) && (ENABLE_WIRED == 1)
                     tkl_wired_set_status(TKL_WIRED_LINK_UP);
@@ -346,7 +346,7 @@ static void pdp_active_deactve(void *arg)
                     gMdsNetStatus[msg.cid] = TUYA_CELLULAR_MDS_NET_DISCONNECT;
                     gProfile[msg.cid].actived = false;
                     if (1 == msg.cid && gMdsNotify) {
-                        gMdsNotify(gMdsNetStatus[1]);
+                        gMdsNotify(0, gMdsNetStatus[1]);
                     }
 #if defined(ENABLE_WIRED) && (ENABLE_WIRED == 1)
                     tkl_wired_set_status(TKL_WIRED_LINK_DOWN);
@@ -388,7 +388,7 @@ static void pdp_reactive(void *arg)
             osDelay(10 * 1000);
             if(gMdsNetStatus[1] != TUYA_CELLULAR_MDS_NET_CONNECT) {
                 NW_IP_S ip;
-                if(tkl_cellular_mds_adv_get_ip(tkl_cellular_get_default_simid(), 1, &ip) == OPRT_OK) {
+                if(tkl_cellular_mds_adv_get_ip(tkl_cellular_base_get_default_simid(), 1, &ip) == OPRT_OK) {
                     if (ip.ip[0] != '\0' && strcmp(ip.ip, "0.0.0.0") != 0) {
                         update_mds_net_status(1, TUYA_CELLULAR_MDS_NET_CONNECT);
                     }
@@ -631,7 +631,7 @@ OPERATE_RET tkl_cellular_mds_register_state_notify(uint8_t sim_id, TKL_MDS_NOTIF
 {
     // --- BEGIN: user implements ---
     gMdsNotify = fun;
-    gMdsNotify(gMdsNetStatus[1]);
+    gMdsNotify(0, gMdsNetStatus[1]);
     return OPRT_OK;    
     // --- END: user implements ---
 }

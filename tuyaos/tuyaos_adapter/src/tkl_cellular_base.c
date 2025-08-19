@@ -10,7 +10,8 @@
  */
 
 // --- BEGIN: user defines and implements ---
-#include "tkl_cellular.h"
+#include "tkl_cellular_base.h"
+#include "tkl_cellular_comm.h"
 
 #if !defined(ENABLE_CELLULAR_PLUGIN) || ENABLE_CELLULAR_PLUGIN == 0
 
@@ -171,7 +172,7 @@ static INT32 netPSEventCallback(PsEventID eventID, void* param, UINT32 paramLen)
  * @param ability @TKL_CELLULAR_ABILITY_E 类型
  * @return 0 成功  其它 失败
  */
-OPERATE_RET tkl_cellular_get_ability(TKL_CELLULAR_ABILITY_E *ability)
+OPERATE_RET tkl_cellular_base_get_ability(TKL_CELLULAR_ABILITY_E *ability)
 {
     // --- BEGIN: user implements ---
     if (ability == NULL) {
@@ -189,7 +190,7 @@ OPERATE_RET tkl_cellular_get_ability(TKL_CELLULAR_ABILITY_E *ability)
  * @param simid SIM卡ID.(0~1)
  * @return 0 成功  其它 失败
  */
-OPERATE_RET tkl_cellular_switch_sim(uint8_t sim_id)
+OPERATE_RET tkl_cellular_base_switch_sim(uint8_t sim_id)
 {
     // --- BEGIN: user implements ---
     return OPRT_NOT_SUPPORTED;
@@ -201,7 +202,7 @@ OPERATE_RET tkl_cellular_switch_sim(uint8_t sim_id)
  * @param fun 状态变化通知函数
  * @return 0 成功  其它 失败
  */
-OPERATE_RET tkl_cellular_register_sim_state_notify(uint8_t simd_id,TKL_SIM_NOTIFY fun)
+OPERATE_RET tkl_cellular_base_register_sim_state_notify(uint8_t simd_id,TKL_SIM_NOTIFY fun)
 {
     // --- BEGIN: user implements ---
     gSimNotify = fun;
@@ -217,7 +218,7 @@ OPERATE_RET tkl_cellular_register_sim_state_notify(uint8_t simd_id,TKL_SIM_NOTIF
  *
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_enable_sim_hotplug(uint8_t sim_id, bool enable)
+OPERATE_RET tkl_cellular_base_enable_sim_hotplug(uint8_t sim_id, bool enable)
 {
     // --- BEGIN: user implements ---
     extern void simcard_hotplug_ctl(bool enable);
@@ -237,7 +238,7 @@ OPERATE_RET tkl_cellular_enable_sim_hotplug(uint8_t sim_id, bool enable)
  * @param state 1：正常，0：异常，2：初始化中
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_sim_get_status(uint8_t sim_id, uint8_t *state)
+OPERATE_RET tkl_cellular_base_sim_get_status(uint8_t sim_id, uint8_t *state)
 {
     // --- BEGIN: user implements ---
     if (state == NULL) {
@@ -258,7 +259,7 @@ OPERATE_RET tkl_cellular_sim_get_status(uint8_t sim_id, uint8_t *state)
  *
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_get_cfun_mode(uint8_t simd_id, int *cfun)
+OPERATE_RET tkl_cellular_base_get_cfun_mode(uint8_t simd_id, int *cfun)
 {
     // --- BEGIN: user implements ---
     if (cfun == NULL) {
@@ -288,7 +289,7 @@ OPERATE_RET tkl_cellular_get_cfun_mode(uint8_t simd_id, int *cfun)
  *
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_set_cfun_mode(uint8_t simd_id,int cfun)
+OPERATE_RET tkl_cellular_base_set_cfun_mode(uint8_t simd_id,int cfun)
 {
     // --- BEGIN: user implements ---
     uint8_t val = (uint8_t)cfun;
@@ -311,7 +312,7 @@ OPERATE_RET tkl_cellular_set_cfun_mode(uint8_t simd_id,int cfun)
  *
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_get_imsi(uint8_t sim_id,char imsi[15 + 1])
+OPERATE_RET tkl_cellular_base_get_imsi(uint8_t sim_id,char imsi[15 + 1])
 {
     // --- BEGIN: user implements ---
     if (!imsi) {
@@ -336,7 +337,7 @@ OPERATE_RET tkl_cellular_get_imsi(uint8_t sim_id,char imsi[15 + 1])
  * @param ICCID识别码，为20字节的字符串
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_get_iccid(uint8_t sim_id,char iccid[20 + 1])
+OPERATE_RET tkl_cellular_base_get_iccid(uint8_t sim_id,char iccid[20 + 1])
 {
     // --- BEGIN: user implements ---
     if (!iccid) {
@@ -361,7 +362,7 @@ OPERATE_RET tkl_cellular_get_iccid(uint8_t sim_id,char iccid[20 + 1])
  * @param IMEI识别码，为15字节的字符串
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_get_imei(uint8_t sim_id,char imei[15 + 1])
+OPERATE_RET tkl_cellular_base_get_imei(uint8_t sim_id,char imei[15 + 1])
 {
     // --- BEGIN: user implements ---
     if (!imei) {
@@ -386,7 +387,7 @@ OPERATE_RET tkl_cellular_get_imei(uint8_t sim_id,char imei[15 + 1])
  * @param IMEI识别码，为15字节的字符串
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_set_imei(uint8_t sim_id,char imei[15 + 1])
+OPERATE_RET tkl_cellular_base_set_imei(uint8_t sim_id,char imei[15 + 1])
 {
     // --- BEGIN: user implements ---
     return OPRT_OK;
@@ -399,7 +400,7 @@ OPERATE_RET tkl_cellular_set_imei(uint8_t sim_id,char imei[15 + 1])
  * @param rsrp 返回实际的信号强度(dbm)
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_get_rsrp(uint8_t sim_id,int *rsrp)
+OPERATE_RET tkl_cellular_base_get_rsrp(uint8_t sim_id,int *rsrp)
 {
     // --- BEGIN: user implements ---
     if (rsrp == NULL) {
@@ -434,7 +435,7 @@ OPERATE_RET tkl_cellular_get_rsrp(uint8_t sim_id,int *rsrp)
  * @param bit_error (0~7,99) 99无网络
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_get_sinr(uint8_t sim_id,int *sinr,int *bit_error)
+OPERATE_RET tkl_cellular_base_get_sinr(uint8_t sim_id,int *sinr,int *bit_error)
 {
     // --- BEGIN: user implements ---
     if (!sinr || !bit_error) {
@@ -464,7 +465,7 @@ OPERATE_RET tkl_cellular_get_sinr(uint8_t sim_id,int *sinr,int *bit_error)
  * @param timeout 搜索临近基站信息超时时间(一般需要4秒左右)
  * @return 0 成功 其它 失败
  */
-OPERATE_RET tkl_cellular_get_lbs(uint8_t sim_id,TKL_LBS_INFO_T *lbs,bool neighbour,int timeout)
+OPERATE_RET tkl_cellular_base_get_lbs(uint8_t sim_id,TKL_LBS_INFO_T *lbs,bool neighbour,int timeout)
 {
     // --- BEGIN: user implements ---
     if (lbs == NULL) {
@@ -473,7 +474,7 @@ OPERATE_RET tkl_cellular_get_lbs(uint8_t sim_id,TKL_LBS_INFO_T *lbs,bool neighbo
     }
 
     int cfun;
-    OPERATE_RET opret = tkl_cellular_get_cfun_mode(0, &cfun);
+    OPERATE_RET opret = tkl_cellular_base_get_cfun_mode(0, &cfun);
     if ((OPRT_OK == opret) && ((0 == cfun) || (4 == cfun))) {
         LOGE("cfun 0 or 4 mode, not support");
         return OPRT_COM_ERROR;
@@ -551,12 +552,36 @@ EXIT:
 }
 
 /**
+ * @brief 获取当前设备的射频校准状态
+ * @return TRUE正常，FALSE异常
+ */
+bool tkl_cellular_base_rf_calibrated(void)
+{
+    // --- BEGIN: user implements ---
+    return true;
+    // --- END: user implements ---
+}
+
+/**
+ * @brief 使能或禁止sim卡gpio检测
+ * @param simId sim卡ID
+ * @param enable TRUE 使能 FALSE 禁止
+ * @return 0 成功 其它 失败
+ */
+OPERATE_RET tkl_cellular_base_enable_sim_detect(uint8_t simid, bool enable)
+{
+    // --- BEGIN: user implements ---
+    return tkl_cellular_base_enable_sim_hotplug(simid, enable);
+    // --- END: user implements ---
+}
+
+/**
  * @brief 获取默认的SIM ID
  *
  *
  * @return 小于0失败，其他SIM ID
  */
-int8_t tkl_cellular_get_default_simid(void)
+int8_t tkl_cellular_base_get_default_simid(void)
 {
     // --- BEGIN: user implements ---
     return 0;
@@ -580,7 +605,7 @@ OPERATE_RET tkl_cellular_register_dev_reg_notify(uint8_t sim_id, TKL_REGISTION_N
 }
 
 /** this api was removed from kernel **/
-OPERATE_RET tkl_cellular_init(void)
+OPERATE_RET tkl_cellular_base_init(TKL_CELL_INIT_PARAM_T *param)
 {
     // --- BEGIN: user implements ---
     int ret = 0;
@@ -604,6 +629,57 @@ OPERATE_RET tkl_cellular_init(void)
 
     LOGD("tkl cellular init success");
     return OPRT_OK;
+    // --- END: user implements ---
+}
+
+/**
+ * @brief 蜂窝基础的通用控制功能，一般作为平台提供一些特殊的能力接口
+ * @param cmd 参考CELL_IOCTRL_CMD
+ * @param argv 平台自定义
+ * @return 0 成功 其它 失败
+ */
+OPERATE_RET tkl_cellular_base_ioctl(int cmd,void* argv)
+{
+    // --- BEGIN: user implements ---
+    if(!argv) {
+        return OPRT_INVALID_PARM;
+    }
+
+    LOGD("base ioctl, cmd: %d", cmd);
+    OPERATE_RET ret = OPRT_OK;
+    switch (cmd)
+    {
+        case CELL_IOCTL_SET_PLMN:
+            return tkl_cellular_comm_set_plmn((char *)argv);
+        break;
+        case CELL_IOCTL_SET_PWRKEY_SHUTDOWN_TIME:
+        {
+            uint32_t timeout = *(uint32_t *)argv;
+            if(timeout == 0) {
+                pwrKeyDeinit(true);
+            } 
+        }
+        break;
+        case CELL_IOCTL_CLOSE_WAKEUP_MODULE:
+        {
+            extern void close_wakeup_pin(void);
+            close_wakeup_pin();
+        }
+        break;
+        case CELL_IOCTL_GET_SYS_VER:
+            return tkl_cellular_comm_get_sysfw_ver((char *)argv);
+        break;
+        case CELL_IOCTL_GET_MODULE:
+            return tkl_cellular_comm_get_module((char *)argv);
+        break;
+        case CELL_IOCTL_GET_RF_CALIBRATED:
+            *(bool *)argv = true;
+        break;
+        default:
+            return OPRT_NOT_SUPPORTED;
+            break;
+    }
+    return ret;  
     // --- END: user implements ---
 }
 

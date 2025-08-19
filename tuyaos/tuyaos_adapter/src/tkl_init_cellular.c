@@ -10,34 +10,34 @@
 #include "tkl_init_cellular.h"
 
 TKL_CELL_BASE_INTF_T c_cell_desc = {
-    .init                       = tkl_cellular_init,
-    .get_ability                = tkl_cellular_get_ability,
-    .switch_sim                 = tkl_cellular_switch_sim,
-    .register_sim_state_notify  = tkl_cellular_register_sim_state_notify,
-    .sim_hotplug_enable         = tkl_cellular_enable_sim_hotplug,
-    .sim_get_status             = tkl_cellular_sim_get_status,
-    .get_cfun_mode              = tkl_cellular_get_cfun_mode,
-    .set_cfun_mode              = tkl_cellular_set_cfun_mode,
-    .get_imsi                   = tkl_cellular_get_imsi,
-    .get_iccid                  = tkl_cellular_get_iccid,
-    .get_imei                   = tkl_cellular_get_imei,
-    .set_imei                   = tkl_cellular_set_imei,
-    .get_rsrp                   = tkl_cellular_get_rsrp,
-    .get_sinr                   = tkl_cellular_get_sinr,
-    .get_lbs                    = tkl_cellular_get_lbs,
-    .get_default_simid          = tkl_cellular_get_default_simid,
-    .ioctl                      = tkl_cellular_ioctl,
-    .get_epoch_sec              = tkl_cellular_get_epoch_time,
-    .get_rssidbm                = tkl_cellular_get_rssidbm,
-    .get_rssi                   = tkl_cellular_get_rssi,
-    .get_nettype                = tkl_cellular_get_nettype,
-    .get_localtime              = tkl_cellular_get_localtime,
-    .get_timezone               = tkl_cellular_get_timezone,
-    .get_sn                     = tkl_cellular_get_sn,
+    .base_init                  = tkl_cellular_base_init,
+    .get_ability                = tkl_cellular_base_get_ability,
+    .switch_sim                 = tkl_cellular_base_switch_sim,
+    .register_sim_state_notify  = tkl_cellular_base_register_sim_state_notify,
+    .sim_hotplug_enable         = tkl_cellular_base_enable_sim_hotplug,
+    .sim_get_status             = tkl_cellular_base_sim_get_status,
+    .get_cfun_mode              = tkl_cellular_base_get_cfun_mode,
+    .set_cfun_mode              = tkl_cellular_base_set_cfun_mode,
+    .get_imsi                   = tkl_cellular_base_get_imsi,
+    .get_iccid                  = tkl_cellular_base_get_iccid,
+    .get_imei                   = tkl_cellular_base_get_imei,
+    .set_imei                   = tkl_cellular_base_set_imei,
+    .get_rsrp                   = tkl_cellular_base_get_rsrp,
+    .get_sinr                   = tkl_cellular_base_get_sinr,
+    .get_lbs                    = tkl_cellular_base_get_lbs,
+    .get_default_simid          = tkl_cellular_base_get_default_simid,
+    .ioctl                      = tkl_cellular_base_ioctl,
+    .get_epoch_sec              = tkl_cellular_comm_get_epoch_time,
+    .get_rssidbm                = tkl_cellular_comm_get_rssi_dBm,
+    .get_rssi                   = tkl_cellular_comm_get_rssi,
+    .get_nettype                = tkl_cellular_comm_get_nettype,
+    .get_localtime              = tkl_cellular_comm_ctrl_get_localtime,
+    .get_timezone               = tkl_cellular_comm_get_timezone,
+    .get_sn                     = tkl_cellular_comm_get_sn,
     .register_dev_reg_notify    = tkl_cellular_register_dev_reg_notify,
 };
 
-TKL_CELL_BASE_INTF_T* cellular_desc_get()
+TKL_CELL_BASE_INTF_T* tkl_cellular_base_desc_get()
 {
     return &c_cell_desc;
 }
@@ -53,7 +53,7 @@ TKL_CELL_MDS_INTF_T c_cell_mds_desc = {
     .registr_mds_net_notify         = tkl_cellular_mds_register_state_notify,
     .get_ip                         = tkl_cellular_mds_get_ip
 };
-TKL_CELL_MDS_INTF_T* cellular_mds_desc_get()
+TKL_CELL_MDS_INTF_T* tkl_cellular_mds_desc_get()
 {
     return  &c_cell_mds_desc;
 }
@@ -99,7 +99,7 @@ TKL_CELL_CALL_INTF_T c_cell_call_desc = {
     .ioctl                  = NULL,
 };
 #endif
-TKL_CELL_CALL_INTF_T* cellular_call_desc_get()
+TKL_CELL_CALL_INTF_T* tkl_cellular_call_desc_get()
 {
     return &c_cell_call_desc;
 }
@@ -121,7 +121,7 @@ TKL_CELL_SMS_INTF_T c_cell_sms_desc = {
     .set_charactor      =  NULL,
 };
 #endif
-TKL_CELL_SMS_INTF_T* cellular_sms_desc_get()
+TKL_CELL_SMS_INTF_T* tkl_cellular_sms_desc_get()
 {
     return &c_cell_sms_desc;
 }
@@ -146,7 +146,7 @@ TKL_CELL_VBAT_INTF_T c_cell_vbat_desc = {
     .low_volt_poweroff_enable   = NULL
 };
 #endif
-TKL_CELL_VBAT_INTF_T* cellular_vbat_desc_get()
+TKL_CELL_VBAT_INTF_T* tkl_cellular_vbat_desc_get()
 {
     return &c_cell_vbat_desc;
 }
@@ -169,7 +169,7 @@ TKL_CELL_KEYPAD_INTF_T  c_cell_keypad_desc = {
 };
 #endif
 
-TKL_CELL_KEYPAD_INTF_T* cellular_keypad_desc_get()
+TKL_CELL_KEYPAD_INTF_T* tkl_cellular_keypad_desc_get()
 {
     return &c_cell_keypad_desc;
 }

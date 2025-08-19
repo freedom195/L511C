@@ -11,7 +11,7 @@
 #define __TKL_INIT_CELLULAR_BASE_H__
 
 #include "tuya_cloud_types.h"
-#include "tkl_cellular.h"
+#include "tkl_cellular_base.h"
 #include "tkl_cellular_call.h"
 #include "tkl_cellular_mds.h"
 #include "tkl_cellular_sms.h"
@@ -29,7 +29,7 @@ extern "C" {
  * 把实现的对象注册到tkl中
  */
 typedef struct {
-    OPERATE_RET (*init)(void);
+    OPERATE_RET (*base_init)(TKL_CELL_INIT_PARAM_T *param);
     OPERATE_RET (*get_ability)(TKL_CELLULAR_ABILITY_E *ability);
     OPERATE_RET (*switch_sim)(uint8_t sim_id);
     OPERATE_RET (*register_sim_state_notify)(uint8_t simd_id, TKL_SIM_NOTIFY notify);
@@ -44,13 +44,15 @@ typedef struct {
     OPERATE_RET (*get_rsrp)(uint8_t sim_id, int *rsrp);
     OPERATE_RET (*get_sinr)(uint8_t sim_id, int *sinr, int *bit_error);
     OPERATE_RET (*get_lbs)(uint8_t simid, TKL_LBS_INFO_T *lbs, bool neighbour, int timeout);
+    bool      (*rf_calibrated)(void);
+    OPERATE_RET (*enable_sim_detect)(uint8_t simid,bool enable);
     int8_t      (*get_default_simid)(void);
     OPERATE_RET (*ioctl)(int cmd, void *argv);
     OPERATE_RET (*get_epoch_sec)(uint64_t *epoch_sec);
     OPERATE_RET (*get_rssidbm)(uint8_t sim_id, int *rssi);
     OPERATE_RET (*get_rssi)(uint8_t sim_id, int *rssi);
     OPERATE_RET (*get_nettype)(uint8_t sim_id, TUYA_CELLULAR_RAT_E *net_type);
-    OPERATE_RET (*get_data_statics)(uint8_t cid, uint32_t *up, uint32_t *down);
+    // OPERATE_RET (*get_data_statics)(uint8_t cid, uint32_t *up, uint32_t *down);
     OPERATE_RET (*get_localtime)(struct tm *local_tm);
     OPERATE_RET (*get_timezone)(int *timezone);
     OPERATE_RET (*get_sn)(char sn[25]);
@@ -62,7 +64,7 @@ typedef struct {
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-TKL_CELL_BASE_INTF_T *cellular_desc_get();
+TKL_CELL_BASE_INTF_T *tkl_cellular_base_desc_get();
 
 /**
  * @brief 蜂窝模组电话拨号API接口定义
@@ -92,7 +94,7 @@ typedef struct {
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-TKL_CELL_CALL_INTF_T *cellular_call_desc_get();
+TKL_CELL_CALL_INTF_T *tkl_cellular_call_desc_get();
 
 /**
  * @brief 蜂窝模组数据服务API接口定义
@@ -116,7 +118,7 @@ typedef struct {
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-TKL_CELL_MDS_INTF_T *cellular_mds_desc_get();
+TKL_CELL_MDS_INTF_T *tkl_cellular_mds_desc_get();
 
 /**
  * @brief 蜂窝模组短信功能API接口定义
@@ -134,7 +136,7 @@ typedef struct {
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-TKL_CELL_SMS_INTF_T *cellular_sms_desc_get();
+TKL_CELL_SMS_INTF_T *tkl_cellular_sms_desc_get();
 
 /**
  * @brief 蜂窝模组电池API接口定义
@@ -154,7 +156,7 @@ typedef struct {
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-TKL_CELL_VBAT_INTF_T *cellular_vbat_desc_get();
+TKL_CELL_VBAT_INTF_T *tkl_cellular_vbat_desc_get();
 
 /**
  * @brief 蜂窝模组音频接口
@@ -172,7 +174,7 @@ typedef struct {
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-TKL_CELL_KEYPAD_INTF_T *cellular_keypad_desc_get();
+TKL_CELL_KEYPAD_INTF_T *tkl_cellular_keypad_desc_get();
 
 #ifdef __cplusplus
 } // extern "C"

@@ -11,7 +11,7 @@
 
 // --- BEGIN: user defines and implements ---
 #include "tkl_cellular_comm.h"
-#include "tkl_cellular.h"
+#include "tkl_cellular_base.h"
 #include "tkl_output.h"
 
 #if !defined(ENABLE_CELLULAR_PLUGIN) || ENABLE_CELLULAR_PLUGIN == 0
@@ -40,12 +40,36 @@ static void tuya_cniot_get_sysfw_info(char fw_name[64], char fw_ver[11])
 // --- END: user defines and implements ---
 
 /**
+ * @brief 控制蜂窝AP LOG输出
+ * @param enable FLASE:输出关闭，TRUEL:输出打开
+ * @return 0 成功  其它 失败
+ */
+OPERATE_RET tkl_cellular_comm_ctrl_ap_trace(bool enable)
+{
+    // --- BEGIN: user implements ---
+    return OPRT_NOT_SUPPORTED;
+    // --- END: user implements ---
+}
+
+/**
+ * @brief 电源键关机功能使能控制
+ * @param enable TRUE:允许，FALSE:禁止
+ * @return 0 成功  其它 失败
+ */
+OPERATE_RET tkl_cellular_comm_ctrl_powerkey(bool enable)
+{
+    // --- BEGIN: user implements ---
+    return OPRT_NOT_SUPPORTED;
+    // --- END: user implements ---
+}
+
+/**
  * @brief 获取RSSI dBm值
  * @param sim_id 对应的SIM卡ID(0~1)
  * @param rssi_dBm:信号强度指针，单位dBm
  * @return 0 成功  其它 失败
  */
-OPERATE_RET tkl_cellular_get_rssidbm(uint8_t sim_id,int *rssi_dBm)
+OPERATE_RET tkl_cellular_comm_get_rssi_dBm(uint8_t sim_id,int *rssi_dBm)
 {
     // --- BEGIN: user implements ---
 	if (rssi_dBm == NULL) {
@@ -76,7 +100,7 @@ OPERATE_RET tkl_cellular_get_rssidbm(uint8_t sim_id,int *rssi_dBm)
  * @param net_type 获取的网络类型指针
  * @return 0 成功  其它 失败
  */
-OPERATE_RET tkl_cellular_get_nettype(uint8_t sim_id, TUYA_CELLULAR_RAT_E *net_type)
+OPERATE_RET tkl_cellular_comm_get_nettype(uint8_t sim_id, TUYA_CELLULAR_RAT_E *net_type)
 {
     // --- BEGIN: user implements ---
 	if (!net_type) {
@@ -130,7 +154,7 @@ OPERATE_RET tkl_cellular_get_nettype(uint8_t sim_id, TUYA_CELLULAR_RAT_E *net_ty
  * @param rssi 获取的信号强度指针
  * @return 0 成功  其它 失败
  */
-OPERATE_RET tkl_cellular_get_rssi(uint8_t sim_id,int *rssi)
+OPERATE_RET tkl_cellular_comm_get_rssi(uint8_t sim_id,int *rssi)
 {
     // --- BEGIN: user implements ---
     if (rssi == NULL) {
@@ -156,7 +180,7 @@ OPERATE_RET tkl_cellular_get_rssi(uint8_t sim_id,int *rssi)
  * @param epoch_sec 用于存储 Unix 时间戳的指针，函数执行成功后，该指针指向的变量将被设置为当前的 Unix 时间戳（以秒为单位）
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-OPERATE_RET tkl_cellular_get_epoch_time(uint64_t *epoch_sec)
+OPERATE_RET tkl_cellular_comm_get_epoch_time(uint64_t *epoch_sec)
 {
     // --- BEGIN: user implements ---
     if (epoch_sec == NULL) {
@@ -174,7 +198,7 @@ OPERATE_RET tkl_cellular_get_epoch_time(uint64_t *epoch_sec)
  * @param up_ms 用于存储上电累计时间时的指针
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-OPERATE_RET tkl_cellular_get_poweron_time(uint64_t *up_ms)
+OPERATE_RET tkl_cellular_comm_get_poweron_time(uint64_t *up_ms)
 {
     // --- BEGIN: user implements ---
     return OPRT_NOT_SUPPORTED;
@@ -186,7 +210,7 @@ OPERATE_RET tkl_cellular_get_poweron_time(uint64_t *up_ms)
  * @param local_tm 用于存储本地时间的指针，函数执行成功后，该指针指向的结构体将被设置为当前的本地时间
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-OPERATE_RET tkl_cellular_get_localtime(struct tm *local_tm)
+OPERATE_RET tkl_cellular_comm_ctrl_get_localtime(struct tm *local_tm)
 {
     // --- BEGIN: user implements ---
     if (local_tm == NULL) {
@@ -207,7 +231,7 @@ OPERATE_RET tkl_cellular_get_localtime(struct tm *local_tm)
  * @param timezone 获取的时区的指针
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-OPERATE_RET tkl_cellular_get_timezone(int *timezone)
+OPERATE_RET tkl_cellular_comm_get_timezone(int *timezone)
 {
     // --- BEGIN: user implements ---
     if (timezone == NULL) {
@@ -234,7 +258,7 @@ OPERATE_RET tkl_cellular_get_timezone(int *timezone)
  * @param sn 设置的SN字符串
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-OPERATE_RET tkl_cellular_get_sn(char sn[25])
+OPERATE_RET tkl_cellular_comm_get_sn(char sn[25])
 {
     // --- BEGIN: user implements ---
 	memset(sn, 0, 25);
@@ -253,7 +277,7 @@ OPERATE_RET tkl_cellular_get_sn(char sn[25])
  * @param sn 获取的SN字符串
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-OPERATE_RET tkl_cellular_set_sn(char sn[25])
+OPERATE_RET tkl_cellular_comm_set_sn(char sn[25])
 {
     // --- BEGIN: user implements ---
 	LOGE("set sn not supported");
@@ -266,7 +290,7 @@ OPERATE_RET tkl_cellular_set_sn(char sn[25])
  * @param ver 获取的版本号字符串
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-static OPERATE_RET tkl_cellular_get_sysfw_ver(char ver[32])
+OPERATE_RET tkl_cellular_comm_get_sysfw_ver(char ver[32])
 {
     // --- BEGIN: user implements ---
     char module[64]={0};
@@ -280,7 +304,7 @@ static OPERATE_RET tkl_cellular_get_sysfw_ver(char ver[32])
  * @param module 获取模组型号名称
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-static OPERATE_RET tkl_cellular_get_module(char module[32])
+OPERATE_RET tkl_cellular_comm_get_module(char module[32])
 {
     // --- BEGIN: user implements ---
 	strncpy(module, "L511C", 8);
@@ -295,7 +319,7 @@ static OPERATE_RET tkl_cellular_get_module(char module[32])
  * @param plmn 为数字格式的运营商编码字符串，如"46000"
  * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-static OPERATE_RET tkl_cellular_set_plmn(char *plmn)
+OPERATE_RET tkl_cellular_comm_set_plmn(char *plmn)
 {
     // --- BEGIN: user implements ---
     if (plmn == NULL) {
@@ -313,55 +337,50 @@ static OPERATE_RET tkl_cellular_set_plmn(char *plmn)
 }
 
 /**
- * @brief 蜂窝基础的通用控制功能，一般作为平台提供一些特殊的能力接口
- *
- * @param cmd 参考CELL_IOCTRL_CMD
- * @param argv 平台自定义
- *
- * @return 0 成功 其它 失败
+ * @brief 设置RRC connect切换到idle的延迟时间
+ * @param time 单位秒。
+ * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
  */
-OPERATE_RET tkl_cellular_ioctl(int cmd,void* argv)
+OPERATE_RET tkl_cellular_comm_set_rrc_release_time(uint32_t time)
 {
     // --- BEGIN: user implements ---
-    if(!argv) {
-        return OPRT_INVALID_PARM;
-    }
+    return OPRT_NOT_SUPPORTED;
+    // --- END: user implements ---       
+}
 
-    LOGD("base ioctl, cmd: %d", cmd);
-    OPERATE_RET ret = OPRT_OK;
-    switch (cmd)
-    {
-        case CELL_SET_PLMN:
-            return tkl_cellular_set_plmn((char *)argv);
-        break;
-        case CELL_SET_PWRKEY_SHUTDOWN_TIME:
-        {
-            uint32_t timeout = *(uint32_t *)argv;
-            if(timeout == 0) {
-                pwrKeyDeinit(true);
-            } 
-        }
-        break;
-        case CELL_CLOSE_WAKEUP_MODULE:
-        {
-            extern void close_wakeup_pin(void);
-            close_wakeup_pin();
-        }
-        break;
-        case CELL_GET_SYS_VER:
-            return tkl_cellular_get_sysfw_ver((char *)argv);
-        break;
-        case CELL_GET_MODULE:
-            return tkl_cellular_get_module((char *)argv);
-        break;
-        case CELL_GET_RF_CALIBRATED:
-            *(bool *)argv = true;
-        break;
-        default:
-            return OPRT_NOT_SUPPORTED;
-            break;
-    }
-    return ret;  
+/**
+ * @brief 获取当前设备RRC connect切换到idle的延迟时间
+ * @param time 单位秒。
+ * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
+ */
+OPERATE_RET tkl_cellular_comm_get_rrc_release_time(uint32_t *time)
+{
+    // --- BEGIN: user implements ---
+    return OPRT_NOT_SUPPORTED;
+    // --- END: user implements ---    
+}
+
+/**
+ * @brief 设置虚拟AT命令应答的回调函数
+ * @param resp_callback 设置的回调函数
+ * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
+ */
+OPERATE_RET tkl_cellular_comm_set_virtual_at_recv_cb(TKL_VIRTAT_RESP resp_callback)
+{
+    // --- BEGIN: user implements ---
+    return OPRT_NOT_SUPPORTED;
+    // --- END: user implements ---
+}
+
+/**
+ * @brief 通过虚拟AT发送AT命令
+ * @param at_cmd AT命令字符串
+ * @return OPERATE_RET 类型，0 表示成功，其他值表示失败
+ */
+OPERATE_RET tkl_cellular_comm_send_virtual_at(char *at_cmd)
+{
+    // --- BEGIN: user implements ---
+    return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
 

@@ -25,7 +25,7 @@
  * @param enalbe 呼叫服务是否可用
  * @return 0 成功，其他失败
  */
-OPERATE_RET tkl_cellular_call_service_available(uint8_t sim_id, bool *enable)
+OPERATE_RET tkl_cellular_call_service_available(uint8_t sim_id)
 {
     // --- BEGIN: user implements ---
     return OPRT_NOT_SUPPORTED;

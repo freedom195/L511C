@@ -50,7 +50,7 @@ typedef enum{
  * @param simId sim卡ID
  * @param state 蜂窝网络状态，查看 @TUYA_CELLULAR_MDS_NET_STATUS_E 定义
  */
-typedef void (*TKL_MDS_NOTIFY)(TUYA_CELLULAR_MDS_NET_STATUS_E st);
+typedef void (*TKL_MDS_NOTIFY)(uint8_t sim_id, TUYA_CELLULAR_MDS_NET_STATUS_E st);
 
 /**
  * @brief 初始化蜂窝移动数据服务
